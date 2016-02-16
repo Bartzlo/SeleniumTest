@@ -24,6 +24,7 @@ public class TestClass {
         driver.quit();
     }
 
+
     @Test
     public void loginTest(){
         logInPage = new LogInPage(driver);
