@@ -1,47 +1,55 @@
 import org.junit.*;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import pageFactory.LogInPage;
-import pageFactory.LogOutPage;
+import pageFactory.PricePage;
 
 import java.util.concurrent.TimeUnit;
 
 public class TestClass {
 
     static WebDriver driver;
-    static LogInPage logInPage;
-    static LogOutPage logOutPage;
+    static PricePage pricePage;
 
-    @Before
-    public void setUpBeforeTest(){
+    @BeforeClass
+    static public void setUpBeforeTest(){
         driver = new FirefoxDriver();
+        driver.manage().window().setPosition(new Point(1281, 0));
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        pricePage = new PricePage(driver);
     }
 
     @After
     public void setUpAfterTest(){
-        driver.quit();
     }
 
-
-    @Test
-    public void loginTest(){
-        logInPage = new LogInPage(driver);
-        logInPage.open();
-        Assert.assertTrue("Открыта не та страцица", logInPage.validate());
-        logOutPage = logInPage.login("Username", "userpassword");
-        Assert.assertTrue("Открыта не та страцица", logOutPage.validate());
-        logOutPage.clickExit();
+    @AfterClass
+    static public void SetUpAfterClass(){
+        //driver.quit();
     }
 
     @Test
-    public void incorrectPass(){
-        logInPage = new LogInPage(driver);
-        logInPage.open();
-        Assert.assertTrue("Открыта не та страцица", logInPage.validate());
-        logInPage.login("Username", "userpassword");
-        Assert.assertTrue("Сообщение об ошибке не найдено", logInPage.chekErrorMessage());
+    public void tabsAvailability(){
+        Assert.assertTrue("Page is don't opened", pricePage.open());
+
+        Assert.assertTrue("First tab is not displayed", pricePage.firstTab.isDisplayed());
+        Assert.assertTrue("First tab is not displayed", pricePage.secondTab.isDisplayed());
+        Assert.assertTrue("First tab is not displayed", pricePage.thirbTab.isDisplayed());
+        Assert.assertTrue("First tab is not displayed", pricePage.fourthTab.isDisplayed());
+        Assert.assertTrue("First tab is not displayed", pricePage.fifthTab.isDisplayed());
+
+        Assert.assertTrue("First tab is not active", pricePage.firstTab.activate());
+        Assert.assertTrue("First tab is not active", pricePage.secondTab.activate());
+        Assert.assertTrue("First tab is not active", pricePage.thirbTab.activate());
+        Assert.assertTrue("First tab is not active", pricePage.fourthTab.activate());
+        Assert.assertTrue("First tab is not active", pricePage.fifthTab.activate());
+    }
+
+    @Ignore
+    @Test
+    public void firstTab(){
 
     }
 }
