@@ -1,6 +1,6 @@
 package pageFactory;
 
-import org.apache.xalan.lib.sql.ConnectionPool;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,6 +15,8 @@ public class PricePage {
 
     public FirstTab firstTab;
     public SecondTab secondTab;
+    public ThirdTab thirdTab;
+    public FourthTab fourthTab;
     public PriceCart priceCart;
 
     // general elements
@@ -29,27 +31,41 @@ public class PricePage {
     private WebElement button;
 
     @FindBy(css = "div.g-expandable button")
-    private List<WebElement> buttons;
+    private List<WebElement> firstTabButtons;
 
     // Second tab
     @FindBy(css = "span.price-resume-access__change-item")
-    WebElement changeRegionLink;
+    private WebElement changeRegionLink;
 
     @FindBy(css = "div.price-resume-access__periods span.bloko-radio__text")
-    List<WebElement> radioButtons;
+    private List<WebElement> radioButtons;
 
     @FindBy(css = "div.price-resume-access__periods input[type=radio]")
-    List<WebElement> radioIndicates;
+    private List<WebElement> radioIndicates;
 
     @FindBy(css = "button[data-qa=cart-resume-access__button-add]")
-    WebElement addToCatrButton;
+    private WebElement addToCatrButton;
+
+    //Thirb tab
+    @FindBy(css = "div.g-expandable div.bloko-control-group__main input")
+    private List<WebElement> thirbTabInputs;
+
+    @FindBy(css = "div.g-expandable div.bloko-control-group__minor")
+    private List<WebElement> thirbTabsButtons;
+
+    //Fourth tab
+    @FindBy(css = "div.g-expandable div.bloko-control-group__main input")
+    private List<WebElement> fourthTabInputs;
+
+    @FindBy(css = "div.g-expandable div.bloko-control-group__minor")
+    private List<WebElement> fourthTabsButtons;
 
     // Price cart
     @FindBy(css = "div.HH-PriceCart")
-    WebElement cartItems;
+    private WebElement cartItems;
 
     @FindBy(css = "div.HH-PriceCart span.price-cart__item-remove")
-    WebElement itemRemover;
+    private WebElement itemRemover;
 
     @FindBy(css = "div.HH-PriceCart span.price-cart__button")
     WebElement buyButton;
@@ -61,6 +77,8 @@ public class PricePage {
         driver.get(url);
         firstTab = new FirstTab(tabs.get(0));
         secondTab = new SecondTab(tabs.get(1));
+        thirdTab = new ThirdTab(tabs.get(2));
+        fourthTab = new FourthTab(tabs.get(3));
         priceCart = new PriceCart();
     }
 
@@ -84,7 +102,7 @@ public class PricePage {
         }
 
         public List<WebElement> getButtons() {
-            return buttons;
+            return firstTabButtons;
         }
     }
 
@@ -117,6 +135,54 @@ public class PricePage {
 
         public List<WebElement> getRadioIndicates() {
             return radioIndicates;
+        }
+    }
+
+    public class ThirdTab{
+        WebElement tab;
+
+        public ThirdTab(WebElement tab){
+            this.tab = tab;
+        }
+
+        public WebElement getTitleTab() {
+            return tab;
+        }
+
+        public boolean isActivated() {
+            return tab.equals(activeTab);
+        }
+
+        public List<WebElement> getInputs(){
+            return thirbTabInputs;
+        }
+
+        public List<WebElement> getButtons(){
+            return thirbTabsButtons;
+        }
+    }
+
+    public class FourthTab{
+        WebElement tab;
+
+        public FourthTab(WebElement tab){
+            this.tab = tab;
+        }
+
+        public WebElement getTitleTab() {
+            return tab;
+        }
+
+        public boolean isActivated() {
+            return tab.equals(activeTab);
+        }
+
+        public List<WebElement> getInputs(){
+            return fourthTabInputs;
+        }
+
+        public List<WebElement> getButtons(){
+            return fourthTabsButtons;
         }
     }
 

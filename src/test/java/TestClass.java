@@ -1,8 +1,12 @@
 import org.junit.*;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageFactory.PricePage;
 
 import java.util.List;
@@ -56,7 +60,7 @@ public class TestClass {
 
         assertTrue("Buttons is not displayed", buttons.get(0).isDisplayed());
         buttons.get(0).click();
-        assertTrue("Click don't give result", pricePage.priceCart.getCartItem().getText().contains("Вакансия Стандарт+"));
+        assertTrue("Item is not submit", pricePage.priceCart.getCartItem().getText().contains("Вакансия Стандарт+"));
 
         assertTrue("Buy button is not displayed", pricePage.priceCart.getBuyButton().isDisplayed());
         pricePage.priceCart.getBuyButton().click();
@@ -74,12 +78,12 @@ public class TestClass {
 
         assertTrue("Button 1 is not displayed", buttons.get(0).isDisplayed());
         buttons.get(0).click();
-        assertTrue("Click don't give result", pricePage.priceCart.getCartItem().getText().contains("Вакансия Стандарт+"));
+        assertTrue("Item 1 is not submit", pricePage.priceCart.getCartItem().getText().contains("Вакансия Стандарт+"));
         assertTrue("Button 1 is not disabled", Boolean.parseBoolean(buttons.get(0).getAttribute("disabled")));
 
         assertTrue("Button 2 is not displayed", buttons.get(1).isDisplayed());
         buttons.get(1).click();
-        assertTrue("Click don't give result", pricePage.priceCart.getCartItem().getText().contains("Неделя доступа к базе резюме"));
+        assertTrue("Item 2 is not submit", pricePage.priceCart.getCartItem().getText().contains("Неделя доступа к базе резюме"));
         assertTrue("Button 2 is not disabled", Boolean.parseBoolean(buttons.get(1).getAttribute("disabled")));
 
         pricePage.priceCart.getItemRemover().click();
@@ -109,8 +113,64 @@ public class TestClass {
         assertFalse("Radio button 1 is activated", pricePage.secondTab.getRadioIndicates().get(1).isSelected());
 
         pricePage.secondTab.getAddToCatrButton().click();
-        assertTrue("Click don't give result", pricePage.priceCart.getItemRemover().isDisplayed());
+        assertTrue("Item is not submit", pricePage.priceCart.getItemRemover().isDisplayed());
     }
 
+    @Test
+    public void thirdTab() {
+        pricePage = new PricePage(driver);
+        assertTrue("Page is not open", pricePage.validation());
 
+        pricePage.thirdTab.getTitleTab().click();
+        assertTrue("Second tab is not active", pricePage.thirdTab.isActivated());
+
+        pricePage.thirdTab.getButtons().get(0).click();
+        pricePage.thirdTab.getButtons().get(1).click();
+        pricePage.thirdTab.getButtons().get(2).click();
+        pricePage.thirdTab.getInputs().get(3).click();
+        pricePage.thirdTab.getInputs().get(3).sendKeys(Keys.ENTER);
+
+        assertTrue("Item 1 is not submit", pricePage.priceCart.getCartItem().getText().contains("1  вакансия Стандарт"));
+        assertTrue("Item 2 is not submit", pricePage.priceCart.getCartItem().getText().contains("1  вакансия Стандарт плюс"));
+        assertTrue("Item 3 is not submit", pricePage.priceCart.getCartItem().getText().contains("1  вакансия Премиум"));
+        assertTrue("Item 4 is not submit", pricePage.priceCart.getCartItem().getText().contains("1  анонимная вакансия"));
+
+        pricePage.thirdTab.getInputs().get(3).clear();
+        pricePage.thirdTab.getInputs().get(3).sendKeys("2");
+        pricePage.thirdTab.getInputs().get(3).sendKeys(Keys.ENTER);
+        assertTrue("Item 4 is not refresh with enter ", pricePage.priceCart.getCartItem().getText().contains("2  анонимных вакансии"));
+
+        pricePage.thirdTab.getInputs().get(3).clear();
+        pricePage.thirdTab.getInputs().get(3).sendKeys("3");
+        pricePage.thirdTab.getButtons().get(3).click();
+        assertTrue("Item 4 is not refresh with button ", pricePage.priceCart.getCartItem().getText().contains("3  анонимных вакансии"));
+    }
+
+    @Test
+    public void fourthTab() {
+        pricePage = new PricePage(driver);
+        assertTrue("Page is not open", pricePage.validation());
+
+        pricePage.fourthTab.getTitleTab().click();
+        assertTrue("Second tab is not active", pricePage.fourthTab.isActivated());
+
+        pricePage.fourthTab.getButtons().get(0).click();
+        pricePage.fourthTab.getButtons().get(1).click();
+        pricePage.fourthTab.getInputs().get(2).click();
+        pricePage.fourthTab.getInputs().get(2).sendKeys(Keys.ENTER);
+
+        assertTrue("Item 1 is not submit", pricePage.priceCart.getCartItem().getText().contains("1  динамический тест числовых способностей"));
+        assertTrue("Item 2 is not submit", pricePage.priceCart.getCartItem().getText().contains("1  динамический тест вербальных способностей"));
+        assertTrue("Item 3 is not submit", pricePage.priceCart.getCartItem().getText().contains("1  опросник выявления универсальных компетенций"));
+
+        pricePage.fourthTab.getInputs().get(2).clear();
+        pricePage.fourthTab.getInputs().get(2).sendKeys("2");
+        pricePage.fourthTab.getInputs().get(2).sendKeys(Keys.ENTER);
+        assertTrue("Item 4 is not refresh with enter ", pricePage.priceCart.getCartItem().getText().contains("2  опросника выявления универсальных компетенций"));
+
+        pricePage.fourthTab.getInputs().get(2).clear();
+        pricePage.fourthTab.getInputs().get(2).sendKeys("3");
+        pricePage.fourthTab.getButtons().get(2).click();
+        assertTrue("Item 4 is not refresh with button ", pricePage.priceCart.getCartItem().getText().contains("3  опросника выявления универсальных компетенций"));
+    }
 }
