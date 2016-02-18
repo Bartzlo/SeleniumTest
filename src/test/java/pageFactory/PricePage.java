@@ -30,8 +30,11 @@ public class PricePage {
     private List<WebElement> buttons;
 
     // Price cart
-    @FindBy(css = "div.HH-PriceCart span[data-qa='cart-item__title']")
-    List<WebElement> cartItems;
+    @FindBy(css = "div.HH-PriceCart")
+    WebElement cartItems;
+
+    @FindBy(css = "div.HH-PriceCart span.price-cart__item-remove")
+    WebElement itemRemover;
 
 
     public PricePage(WebDriver driver) {
@@ -68,8 +71,12 @@ public class PricePage {
 
     public class PriceCart {
 
-        public List<WebElement> getCartItems() {
+        public WebElement getCartItem(){
             return cartItems;
+        }
+
+        public WebElement getItemRemover(){
+            return itemRemover;
         }
     }
 

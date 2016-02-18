@@ -42,21 +42,26 @@ public class TestClass {
     }
 
     @Test
-    public void firstTab(){
+    public void firstTabAndCartItemRemove(){
         pricePage = new PricePage(driver);
         assertTrue("Page is not open", pricePage.validation());
 
         pricePage.firstTab.getTitleTab().click();
         List<WebElement> buttons = pricePage.firstTab.getButtons();
-        assertTrue("Buttons is not displayed", buttons.get(0).isDisplayed());
-        assertTrue("Buttons is not displayed", buttons.get(1).isDisplayed());
 
+        assertTrue("Buttons is not displayed", buttons.get(0).isDisplayed());
         buttons.get(0).click();
-        assertTrue("Click don't give result", pricePage.priceCart.getCartItems().get(0).getText().contains("Вакансия Стандарт+"));
+        assertTrue("Click don't give result", pricePage.priceCart.getCartItem().getText().contains("Вакансия Стандарт+"));
         assertTrue("Button is not disabled1", Boolean.parseBoolean(buttons.get(0).getAttribute("disabled")));
 
+        assertTrue("Buttons is not displayed", buttons.get(1).isDisplayed());
         buttons.get(1).click();
-        assertTrue("Click don't give result", pricePage.priceCart.getCartItems().get(1).getText().contains("Неделя доступа к базе резюме"));
+        assertTrue("Click don't give result", pricePage.priceCart.getCartItem().getText().contains("Неделя доступа к базе резюме"));
         assertTrue("Button is not disabled1", Boolean.parseBoolean(buttons.get(1).getAttribute("disabled")));
+
+        pricePage.priceCart.getItemRemover().click();
+        pricePage.priceCart.getItemRemover().click();
+        assertFalse("Item is not removed", pricePage.priceCart.getCartItem().getText().contains("Вакансия Стандарт+"));
+        assertFalse("Item is not removed", pricePage.priceCart.getCartItem().getText().contains("Неделя доступа к базе резюме"));
     }
 }
