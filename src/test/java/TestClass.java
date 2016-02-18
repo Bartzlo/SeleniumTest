@@ -5,12 +5,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import pageFactory.PricePage;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.*;
 
 public class TestClass {
 
-    static WebDriver driver;
-    static PricePage pricePage;
+    private static WebDriver driver;
+    private PricePage pricePage;
 
     @BeforeClass
     static public void setUpBeforeTest(){
@@ -18,7 +21,6 @@ public class TestClass {
         driver.manage().window().setPosition(new Point(1281, 0));
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        pricePage = new PricePage(driver);
     }
 
     @After
@@ -32,24 +34,29 @@ public class TestClass {
 
     @Test
     public void tabsAvailability(){
-        Assert.assertTrue("Page is don't opened", pricePage.open());
-
-        Assert.assertTrue("First tab is not displayed", pricePage.firstTab.isDisplayed());
-        Assert.assertTrue("First tab is not displayed", pricePage.secondTab.isDisplayed());
-        Assert.assertTrue("First tab is not displayed", pricePage.thirbTab.isDisplayed());
-        Assert.assertTrue("First tab is not displayed", pricePage.fourthTab.isDisplayed());
-        Assert.assertTrue("First tab is not displayed", pricePage.fifthTab.isDisplayed());
-
-        Assert.assertTrue("First tab is not active", pricePage.firstTab.activate());
-        Assert.assertTrue("First tab is not active", pricePage.secondTab.activate());
-        Assert.assertTrue("First tab is not active", pricePage.thirbTab.activate());
-        Assert.assertTrue("First tab is not active", pricePage.fourthTab.activate());
-        Assert.assertTrue("First tab is not active", pricePage.fifthTab.activate());
+        pricePage = new PricePage(driver);
+        assertTrue("Page is not open", pricePage.validation());
+        assertTrue("First tab is not displayed", pricePage.firstTab.getTitleTab().isDisplayed());
+        pricePage.firstTab.getTitleTab().click();
+        assertTrue("First tab is not active", pricePage.firstTab.isActivated());
     }
 
-    @Ignore
     @Test
     public void firstTab(){
+        pricePage = new PricePage(driver);
+        assertTrue("Page is not open", pricePage.validation());
 
+        pricePage.firstTab.getTitleTab().click();
+        List<WebElement> buttons = pricePage.firstTab.getButtons();
+        assertTrue("Buttons is not displayed", buttons.get(0).isDisplayed());
+        assertTrue("Buttons is not displayed", buttons.get(1).isDisplayed());
+
+        buttons.get(0).click();
+        assertTrue("Click don't give result", pricePage.priceCart.getCartItems().get(0).getText().contains("Вакансия Стандарт+"));
+        assertTrue("Button is not disabled1", Boolean.parseBoolean(buttons.get(0).getAttribute("disabled")));
+
+        buttons.get(1).click();
+        assertTrue("Click don't give result", pricePage.priceCart.getCartItems().get(1).getText().contains("Неделя доступа к базе резюме"));
+        assertTrue("Button is not disabled1", Boolean.parseBoolean(buttons.get(1).getAttribute("disabled")));
     }
 }
