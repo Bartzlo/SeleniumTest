@@ -1,7 +1,4 @@
-import junit.extensions.RepeatedTest;
-import junit.framework.*;
 import org.junit.*;
-import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
@@ -9,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageFactory.PricePage;
 
@@ -31,6 +27,11 @@ public class TestClass {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
+    @Before
+    public void SetUpBeforeTest(){
+        pricePage = new PricePage(driver);
+    }
+
     @AfterClass
     static public void SetUpAfterClass(){
         driver.quit();
@@ -41,7 +42,6 @@ public class TestClass {
      */
     @Test
     public void tabsAvailability(){
-        pricePage = new PricePage(driver);
         assertTrue("Page is not open", pricePage.validation());
         assertTrue("First tab is not displayed", pricePage.firstTab.getTitleTab().isDisplayed());
         assertTrue("Second tab is not displayed", pricePage.secondTab.getTitleTab().isDisplayed());
@@ -70,7 +70,6 @@ public class TestClass {
      */
     @Test
     public void buyButton(){
-        pricePage = new PricePage(driver);
         assertTrue("Page is not open", pricePage.validation());
 
         pricePage.firstTab.getTitleTab().click();
@@ -91,7 +90,6 @@ public class TestClass {
      */
     @Test
     public void firstTabAndCartItemRemove(){
-        pricePage = new PricePage(driver);
         assertTrue("Page is not open", pricePage.validation());
 
         pricePage.firstTab.getTitleTab().click();
@@ -121,7 +119,6 @@ public class TestClass {
      */
     @Test
     public void secondTab(){
-        pricePage = new PricePage(driver);
         assertTrue("Page is not open", pricePage.validation());
 
         pricePage.secondTab.getTitleTab().click();
@@ -133,7 +130,7 @@ public class TestClass {
         assertTrue("Radio button 3 is not displayed", pricePage.secondTab.getRadios().get(2).isDisplayed());
         assertTrue("Radio button 4 is not displayed", pricePage.secondTab.getRadios().get(3).isDisplayed());
         assertTrue("Radio button 5 is not displayed", pricePage.secondTab.getRadios().get(4).isDisplayed());
-        assertTrue("Add to cart button i not displayed", pricePage.secondTab.getAddToCatrButton().isDisplayed());
+        assertTrue("Add to cart button is not displayed", pricePage.secondTab.getAddToCatrButton().isDisplayed());
 
         pricePage.secondTab.getRadios().get(0).click();
         assertTrue("Radio button 1 is not activated", pricePage.secondTab.getRadioIndicates().get(0).isSelected());
@@ -148,7 +145,6 @@ public class TestClass {
      */
     @Test
     public void thirdTab() {
-        pricePage = new PricePage(driver);
         assertTrue("Page is not open", pricePage.validation());
 
         pricePage.thirdTab.getTitleTab().click();
@@ -185,7 +181,6 @@ public class TestClass {
      */
     @Test
     public void fourthTab() {
-        pricePage = new PricePage(driver);
         assertTrue("Page is not open", pricePage.validation());
 
         pricePage.fourthTab.getTitleTab().click();
@@ -220,7 +215,6 @@ public class TestClass {
      */
     @Test
     public void fifthTabSubTabs(){
-        pricePage = new PricePage(driver);
         assertTrue("Page is not open", pricePage.validation());
 
         pricePage.fifthTab.getTitleTab().click();
@@ -241,7 +235,6 @@ public class TestClass {
      */
     @Test
     public void fifthTab() {
-        pricePage = new PricePage(driver);
         assertTrue("Page is not open", pricePage.validation());
 
         pricePage.fifthTab.getTitleTab().click();
