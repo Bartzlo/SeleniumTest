@@ -1,6 +1,5 @@
 package pageFactory;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,6 +16,7 @@ public class PricePage {
     public SecondTab secondTab;
     public ThirdTab thirdTab;
     public FourthTab fourthTab;
+    public FifthTab fifthTab;
     public PriceCart priceCart;
 
     // general elements
@@ -47,18 +47,31 @@ public class PricePage {
     private WebElement addToCatrButton;
 
     //Thirb tab
-    @FindBy(css = "div.g-expandable div.bloko-control-group__main input")
+    @FindBy(css = "div[class*=price-countable-services_4-columns] button[class*=bloko-button]")
+    private List<WebElement> thirbTabButtons;
+
+    @FindBy(css = "div[class*=price-countable-services_4-columns] input[class*=bloko-input]")
     private List<WebElement> thirbTabInputs;
 
-    @FindBy(css = "div.g-expandable div.bloko-control-group__minor")
-    private List<WebElement> thirbTabsButtons;
-
     //Fourth tab
-    @FindBy(css = "div.g-expandable div.bloko-control-group__main input")
+    @FindBy(css = "div[class*=price-countable-services_3-columns] button[class*=bloko-button]")
+    private List<WebElement> fourthTabButtons;
+
+    @FindBy(css = "div[class*=price-countable-services_3-columns] input[class*=bloko-input]")
     private List<WebElement> fourthTabInputs;
 
-    @FindBy(css = "div.g-expandable div.bloko-control-group__minor")
-    private List<WebElement> fourthTabsButtons;
+    //Fifth tab
+    @FindBy(css = "div[class*=price-countable-services_2-columns] button[class*=bloko-button]")
+    private List<WebElement> fifthTabButtons;
+
+    @FindBy(css = "div[class*=price-countable-services_2-columns] input[class*=bloko-input]")
+    private List<WebElement> fifthTabInputs;
+
+    @FindBy(css = "div[class*=price-additional-subfilter] span")
+    private List<WebElement> subTabs;
+
+    @FindBy(css = "div[class*=price-additional-subfilter] span[class*=m-switchrow__switch_selected]")
+    private WebElement activeSubTab;
 
     // Price cart
     @FindBy(css = "div.HH-PriceCart")
@@ -79,6 +92,7 @@ public class PricePage {
         secondTab = new SecondTab(tabs.get(1));
         thirdTab = new ThirdTab(tabs.get(2));
         fourthTab = new FourthTab(tabs.get(3));
+        fifthTab = new FifthTab(tabs.get(4));
         priceCart = new PriceCart();
     }
 
@@ -158,7 +172,7 @@ public class PricePage {
         }
 
         public List<WebElement> getButtons(){
-            return thirbTabsButtons;
+            return thirbTabButtons;
         }
     }
 
@@ -177,12 +191,12 @@ public class PricePage {
             return tab.equals(activeTab);
         }
 
-        public List<WebElement> getInputs(){
-            return fourthTabInputs;
+        public List<WebElement> getButtons(){
+            return fourthTabButtons;
         }
 
-        public List<WebElement> getButtons(){
-            return fourthTabsButtons;
+        public List<WebElement> getInputs(){
+            return fourthTabInputs;
         }
     }
 
@@ -198,6 +212,38 @@ public class PricePage {
 
         public WebElement getBuyButton() {
             return buyButton;
+        }
+    }
+
+    public class FifthTab{
+        WebElement tab;
+
+        public FifthTab(WebElement tab){
+            this.tab = tab;
+        }
+
+        public WebElement getTitleTab() {
+            return tab;
+        }
+
+        public boolean isActivated() {
+            return tab.equals(activeTab);
+        }
+
+        public List<WebElement> getButtons(){
+            return fifthTabButtons;
+        }
+
+        public List<WebElement> getInputs(){
+            return fifthTabInputs;
+        }
+
+        public List<WebElement> getSubTabs(){
+            return subTabs;
+        }
+
+        public boolean checkSubTabForAvtive(WebElement n){
+            return n.equals(activeSubTab);
         }
     }
 
