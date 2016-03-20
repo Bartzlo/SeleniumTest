@@ -22,7 +22,7 @@ public class TestClass {
     @BeforeClass
     static public void setUpBeforeTest(){
         driver = new FirefoxDriver();
-        driver.manage().window().setPosition(new Point(1281, 0));
+        //driver.manage().window().setPosition(new Point(1281, 0));
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
